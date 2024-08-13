@@ -1,0 +1,16 @@
+{
+  "name": "beverage-api",
+  "version": "1.0.0",
+  "description": "An api that manipulates beverage data",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Codex January Cohort",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "nodemon": "^3.1.4"
+  }
+}
