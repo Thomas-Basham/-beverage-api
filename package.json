@@ -4,7 +4,8 @@
   "description": "An api that manipulates beverage data",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "author": "Codex January Cohort",
   "license": "ISC",
