@@ -94,8 +94,35 @@ const BEVERAGES = [
 ];
 
 // Define our Routes
+// Home Route
 app.get("/", (request, response, next) => {
   response.json({ hello: "World!" });
+});
+
+// Route to Get all Beverages
+app.get("/beverages", (request, response, next) => {
+  try {
+    response.json(BEVERAGES);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Route to get a single beverage
+app.get("/beverages/:id", (request, response, next) => {
+  try {
+    const foundBeverage = BEVERAGES.find((value) => {
+      return value.id === parseInt(request.params.id);
+    });
+
+    //Error Handling
+    if (!foundBeverage) {
+      return response.status(404).json({ message: "Beverage does not exist!" });
+    }
+    response.json(foundBeverage);
+  } catch (error) {
+    next(error);
+  }
 });
 
 // Define our Middleware
