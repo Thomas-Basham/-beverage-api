@@ -93,6 +93,13 @@ const BEVERAGES = [
   },
 ];
 
+// Define our Middleware
+// Use CORS Middleware
+app.use(cors());
+
+// Use JSON middleware to parse request bodies
+app.use(express.json());
+
 // Define our Routes
 // Home Route
 app.get("/", (request, response, next) => {
@@ -125,12 +132,72 @@ app.get("/beverages/:id", (request, response, next) => {
   }
 });
 
-// Define our Middleware
-// Use CORS Middleware
-app.use(cors());
+// Route to add a beverage
+app.post("/beverages", (request, response, next) => {
+  try {
+    // destructure our request.body object so we can store the fields in variables
+    const { name, description, price, category, inStock } = request.body;
 
-// Use JSON middleware to parse request bodies
-app.use(express.json());
+    // error handling if request doesn't send all fields necessary
+    if (!name || !description || !price || !category || !inStock) {
+      return response
+        .status(400)
+        .json({ message: "Missing required fields!!" });
+    }
+
+    // create a new object with a new ID
+    const newBeverage = {
+      id: BEVERAGES.length + 1,
+      name,
+      description,
+      price,
+      category,
+      inStock,
+    };
+
+    // add the new object to our data collection (array)
+    BEVERAGES.push(newBeverage);
+    console.log(BEVERAGES);
+
+    // send a response of the added data
+    response.status(201).json(newBeverage);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Route to update a beverage
+app.put("/beverages/:id", (request, response, next) => {
+  try {
+    const foundBeverage = BEVERAGES.find((value) => {
+      return value.id === parseInt(request.params.id);
+    });
+
+    // destructure our request.body object so we can store the fields in variables
+    const { name, description, price, category, inStock } = request.body;
+
+    // error handling if request doesn't send all fields necessary
+    if (!name || !description || !price || !category || !inStock) {
+      return response
+        .status(400)
+        .json({ message: "Missing required fields!!" });
+    }
+
+    // set our found object's values to the ones sent in the request body
+    foundBeverage.name = name;
+    foundBeverage.description = description;
+    foundBeverage.price = price;
+    foundBeverage.category = category;
+    foundBeverage.inStock = inStock;
+
+    // send our updated item back in a response
+    response.json(foundBeverage);
+
+    console.log(BEVERAGES);
+  } catch (error) {
+    next(error);
+  }
+});
 
 // Error Handling
 // Generic Error Handling
