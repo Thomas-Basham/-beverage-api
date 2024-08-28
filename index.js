@@ -1,8 +1,17 @@
+// Import Dotenv
+require("dotenv").config();
+
 // Import Express
 const express = require("express");
 
 // Import CORS
 const cors = require("cors");
+
+// Import Axios
+const axios = require("axios");
+
+// import our Supabase instance
+const supabase = require("./supabaseInstance");
 
 // create an express application
 const app = express();
@@ -107,9 +116,11 @@ app.get("/", (request, response, next) => {
 });
 
 // Route to Get all Beverages
-app.get("/beverages", (request, response, next) => {
+app.get("/beverages", async (request, response, next) => {
   try {
-    response.json(BEVERAGES);
+    // response.json(BEVERAGES);
+    const res = await supabase.get("/beverages");
+    response.json(res.data);
   } catch (error) {
     next(error);
   }
