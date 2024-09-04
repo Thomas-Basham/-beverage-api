@@ -147,6 +147,17 @@ app.get("/beverages/:id", async (request, response, next) => {
   }
 });
 
+// Route to delete a single beverage by id
+app.delete("/beverages/:id", async (request, response, next) => {
+  try {
+    const res = await supabase.delete(`/beverages?id=eq.${request.params.id}`);
+
+    response.status(204).send();
+  } catch (error) {
+    next(error);
+  }
+});
+
 // Route to add a beverage
 app.post("/beverages", (request, response, next) => {
   try {
