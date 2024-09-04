@@ -139,7 +139,7 @@ app.get("/beverages/:id", async (request, response, next) => {
     if (!res.data.length) {
       return response.status(404).json({ message: "Beverage does not exist!" });
     }
-    
+
     // send our beverage object
     response.json(res.data[0]);
   } catch (error) {
@@ -162,7 +162,7 @@ app.post("/beverages", (request, response, next) => {
 
     // create a new object with a new ID
     const newBeverage = {
-      id: BEVERAGES.length + 1,
+      // id: BEVERAGES.length + 1,
       name,
       description,
       price,
@@ -170,11 +170,9 @@ app.post("/beverages", (request, response, next) => {
       inStock,
     };
 
-    // add the new object to our data collection (array)
-    BEVERAGES.push(newBeverage);
-    console.log(BEVERAGES);
+    // send our object to our SQL db
+    const res = supabase.post("/beverages", newBeverage);
 
-    // send a response of the added data
     response.status(201).json(newBeverage);
   } catch (error) {
     next(error);
