@@ -191,12 +191,8 @@ app.post("/beverages", (request, response, next) => {
 });
 
 // Route to update a beverage by id
-app.put("/beverages/:id", (request, response, next) => {
+app.put("/beverages/:id", async (request, response, next) => {
   try {
-    const foundBeverage = BEVERAGES.find((value) => {
-      return value.id === parseInt(request.params.id);
-    });
-
     // destructure our request.body object so we can store the fields in variables
     const { name, description, price, category, inStock } = request.body;
 
@@ -207,17 +203,22 @@ app.put("/beverages/:id", (request, response, next) => {
         .json({ message: "Missing required fields!!" });
     }
 
-    // set our found object's values to the ones sent in the request body
-    foundBeverage.name = name;
-    foundBeverage.description = description;
-    foundBeverage.price = price;
-    foundBeverage.category = category;
-    foundBeverage.inStock = inStock;
+    const updatedBeverage = {
+      // id: BEVERAGES.length + 1,
+      name,
+      description,
+      price,
+      category,
+      inStock,
+    };
 
-    // send our updated item back in a response
-    response.json(foundBeverage);
+    const res = await supabase.patch(
+      `/beverages?id=eq.${request.params.id}`,
+      updatedBeverage
+    );
 
-    console.log(BEVERAGES);
+    // send ok response
+    response.status(200).send();
   } catch (error) {
     next(error);
   }
