@@ -126,18 +126,22 @@ app.get("/beverages", async (request, response, next) => {
   }
 });
 
-// Route to get a single beverage
-app.get("/beverages/:id", (request, response, next) => {
+// Route to get a single beverage by id
+app.get("/beverages/:id", async (request, response, next) => {
   try {
-    const foundBeverage = BEVERAGES.find((value) => {
-      return value.id === parseInt(request.params.id);
-    });
+    // const foundBeverage = BEVERAGES.find((value) => {
+    //   return value.id === parseInt(request.params.id);
+    // })
+
+    const res = await supabase.get(`/beverages?id=eq.${request.params.id}`);
 
     //Error Handling
-    if (!foundBeverage) {
+    if (!res.data.length) {
       return response.status(404).json({ message: "Beverage does not exist!" });
     }
-    response.json(foundBeverage);
+    
+    // send our beverage object
+    response.json(res.data[0]);
   } catch (error) {
     next(error);
   }
@@ -177,7 +181,7 @@ app.post("/beverages", (request, response, next) => {
   }
 });
 
-// Route to update a beverage
+// Route to update a beverage by id
 app.put("/beverages/:id", (request, response, next) => {
   try {
     const foundBeverage = BEVERAGES.find((value) => {
