@@ -19,11 +19,10 @@ const app = express();
 // define a port
 const PORT = 4000;
 
-
 // Define our Middleware
 // Use CORS Middleware
 const corsOptions = {
-  origin: "http://localhost:4000",
+  origin: "www.test.com",
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
@@ -40,7 +39,9 @@ app.get("/", (request, response, next) => {
 
 // Route to Get all Beverages
 app.get("/beverages", cors(corsOptions), async (request, response, next) => {
+  
   try {
+    console.log(request)
     // response.json(BEVERAGES);
     const res = await supabase.get("/beverages");
     response.json(res.data);
