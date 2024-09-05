@@ -11,7 +11,7 @@ const cors = require("cors");
 const axios = require("axios");
 
 // import our Supabase instance
-const supabase = require("./supabaseInstance");
+const supabase = require("../supabaseInstance");
 
 // create an express application
 const app = express();
