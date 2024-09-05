@@ -22,7 +22,7 @@ const PORT = 4000;
 // Define our Middleware
 // Use CORS Middleware
 const corsOptions = {
-  origin: "www.test.com",
+  origin: "https://example.com",
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
