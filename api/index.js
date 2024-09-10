@@ -17,6 +17,7 @@ const supabase = require("../supabaseInstance");
 const getAll = require("./routes/getAll");
 const getById = require("./routes/getById");
 const deleteById = require("./routes/deleteById");
+const updateById = require("./routes/updateById");
 
 // create an express application
 const app = express();
@@ -52,7 +53,7 @@ app.get("/beverages/:id", getById);
 app.delete("/beverages/:id", deleteById);
 
 // Route to add a beverage
-app.post("/beverages", (request, response, next) => {
+app.post("/beverages", async (request, response, next) => {
   try {
     // destructure our request.body object so we can store the fields in variables
     const { name, description, price, category, inStock } = request.body;
@@ -75,7 +76,7 @@ app.post("/beverages", (request, response, next) => {
     };
 
     // send our object to our SQL db
-    const res = supabase.post("/beverages", newBeverage);
+    const res = await supabase.post("/beverages", newBeverage);
 
     response.status(201).json(newBeverage);
   } catch (error) {
@@ -84,38 +85,7 @@ app.post("/beverages", (request, response, next) => {
 });
 
 // Route to update a beverage by id
-app.put("/beverages/:id", async (request, response, next) => {
-  try {
-    // destructure our request.body object so we can store the fields in variables
-    const { name, description, price, category, inStock } = request.body;
-
-    // error handling if request doesn't send all fields necessary
-    if (!name || !description || !price || !category || !inStock) {
-      return response
-        .status(400)
-        .json({ message: "Missing required fields!!" });
-    }
-
-    const updatedBeverage = {
-      // id: BEVERAGES.length + 1,
-      name,
-      description,
-      price,
-      category,
-      inStock,
-    };
-
-    const res = await supabase.patch(
-      `/beverages?id=eq.${request.params.id}`,
-      updatedBeverage
-    );
-
-    // send ok response
-    response.status(200).send();
-  } catch (error) {
-    next(error);
-  }
-});
+app.put("/beverages/:id", updateById);
 
 // Error Handling
 // Generic Error Handling
