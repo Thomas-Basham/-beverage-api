@@ -16,6 +16,7 @@ const supabase = require("../supabaseInstance");
 // Import Our route functions
 const getAll = require("./routes/getAll");
 const getById = require("./routes/getById");
+const deleteById = require("./routes/deleteById");
 
 // create an express application
 const app = express();
@@ -48,15 +49,7 @@ app.get("/beverages", getAll);
 app.get("/beverages/:id", getById);
 
 // Route to delete a single beverage by id
-app.delete("/beverages/:id", async (request, response, next) => {
-  try {
-    const res = await supabase.delete(`/beverages?id=eq.${request.params.id}`);
-
-    response.status(204).send();
-  } catch (error) {
-    next(error);
-  }
-});
+app.delete("/beverages/:id", deleteById);
 
 // Route to add a beverage
 app.post("/beverages", (request, response, next) => {
