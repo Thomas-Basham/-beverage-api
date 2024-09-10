@@ -15,6 +15,7 @@ const supabase = require("../supabaseInstance");
 
 // Import Our route functions
 const getAll = require("./routes/getAll");
+const getById = require("./routes/getById");
 
 // create an express application
 const app = express();
@@ -44,25 +45,7 @@ app.get("/", (request, response, next) => {
 app.get("/beverages", getAll);
 
 // Route to get a single beverage by id
-app.get("/beverages/:id", async (request, response, next) => {
-  try {
-    // const foundBeverage = BEVERAGES.find((value) => {
-    //   return value.id === parseInt(request.params.id);
-    // })
-
-    const res = await supabase.get(`/beverages?id=eq.${request.params.id}`);
-
-    //Error Handling
-    if (!res.data.length) {
-      return response.status(404).json({ message: "Beverage does not exist!" });
-    }
-
-    // send our beverage object
-    response.json(res.data[0]);
-  } catch (error) {
-    next(error);
-  }
-});
+app.get("/beverages/:id", getById);
 
 // Route to delete a single beverage by id
 app.delete("/beverages/:id", async (request, response, next) => {
