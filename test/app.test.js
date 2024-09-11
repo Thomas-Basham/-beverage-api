@@ -1,10 +1,15 @@
+// Import Dotenv
+require("dotenv").config();
+
 const request = require("supertest");
 const app = require("../api/index");
 
 describe("Beverages API", () => {
   // Test GET all beverages
   it("should return all beverages", async () => {
-    const response = await request(app).get("/beverages");
+    const response = await request(app)
+      .get("/beverages")
+      .set("api-key", process.env.ADMIN_API_KEY);
     expect(response.status).toBe(200);
     expect(response.body).toBeInstanceOf(Array);
   });
@@ -12,7 +17,9 @@ describe("Beverages API", () => {
   // Test GET a single beverage by id
   it("should return a beverage by ID", async () => {
     const beverageId = 10; // Change this ID based on your testing data
-    const response = await request(app).get(`/beverages/${beverageId}`);
+    const response = await request(app)
+      .get(`/beverages/${beverageId}`)
+      .set("api-key", process.env.ADMIN_API_KEY);
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("id", beverageId);
   });
@@ -26,7 +33,10 @@ describe("Beverages API", () => {
       category: "Sodas",
       inStock: true,
     };
-    const response = await request(app).post("/beverages").send(newBeverage);
+    const response = await request(app)
+      .post("/beverages")
+      .set("api-key", process.env.ADMIN_API_KEY)
+      .send(newBeverage);
     expect(response.status).toBe(201);
     expect(response.body).toHaveProperty("name", "description", "price");
   });
@@ -34,7 +44,9 @@ describe("Beverages API", () => {
   // Test DELETE a beverage by id
   it("should delete a beverage by ID", async () => {
     const beverageId = 1; // Change this ID for testing purposes
-    const response = await request(app).delete(`/beverages/${beverageId}`);
+    const response = await request(app)
+      .delete(`/beverages/${beverageId}`)
+      .set("api-key", process.env.ADMIN_API_KEY);
     expect(response.status).toBe(204);
   });
 
@@ -50,6 +62,7 @@ describe("Beverages API", () => {
     };
     const response = await request(app)
       .put(`/beverages/${beverageId}`)
+      .set("api-key", process.env.ADMIN_API_KEY)
       .send(updatedBeverage);
 
     expect(response.status).toBe(200);
