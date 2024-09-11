@@ -4,8 +4,11 @@
   "description": "An api that manipulates beverage data",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "nodemon api/index.js"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "author": "Codex January Cohort",
   "license": "ISC",
@@ -15,5 +18,9 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "nodemon": "^3.1.4"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
   }
 }

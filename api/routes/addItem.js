@@ -1,3 +1,6 @@
+// import our Supabase instance
+const supabase = require("../../supabaseInstance");
+
 const addItem = async (request, response, next) => {
   try {
     // destructure our request.body object so we can store the fields in variables
