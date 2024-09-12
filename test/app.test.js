@@ -2,7 +2,7 @@
 require("dotenv").config();
 
 const request = require("supertest");
-const app = require("../api/index");
+const { app, server } = require("../api/index");
 
 describe("Beverages API", () => {
   // Test GET all beverages
@@ -67,5 +67,10 @@ describe("Beverages API", () => {
 
     expect(response.status).toBe(200);
     // expect(response.body).toHaveProperty("name", "Dr. Peppers");
+  });
+
+  // Close the server after all tests
+  afterAll((done) => {
+    server.close(done); // Ensure server is closed after tests
   });
 });

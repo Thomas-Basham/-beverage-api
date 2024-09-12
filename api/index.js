@@ -92,9 +92,10 @@ app.use((request, response, next) => {
 });
 
 // make the server listen on our port
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`The server is running on http://localhost:${PORT}`);
 });
 
+
 // export our app for testing
-module.exports = app;
+module.exports = { app, server };
