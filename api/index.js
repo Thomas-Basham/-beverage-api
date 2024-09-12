@@ -19,7 +19,7 @@ const getById = require("./routes/getById");
 const deleteById = require("./routes/deleteById");
 const updateById = require("./routes/updateById");
 const addItem = require("./routes/addItem");
-
+const docs = require("./routes/docs");
 // create an express application
 const app = express();
 
@@ -54,7 +54,7 @@ app.use((request, response, next) => {
 // Define our Routes
 // Home Route
 app.get("/", (request, response, next) => {
-  response.json({ hello: "World!" });
+  response.json(docs);
 });
 
 // Route to Get all Beverages
