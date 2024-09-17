@@ -29,7 +29,7 @@ const PORT = 4000;
 // Define our Middleware
 // Use CORS Middleware
 const corsOptions = {
-  origin: "https://example.com",
+  origin: process.env.BEVERAGE_CLIENT,
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
@@ -95,7 +95,6 @@ app.use((request, response, next) => {
 const server = app.listen(PORT, () => {
   console.log(`The server is running on http://localhost:${PORT}`);
 });
-
 
 // export our app for testing
 module.exports = { app, server };
