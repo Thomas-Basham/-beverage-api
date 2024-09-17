@@ -2,7 +2,11 @@
 require("dotenv").config();
 
 const request = require("supertest");
-const { app, server } = require("../api/index");
+const  app = require("../api/index");
+const PORT = 4001
+const server = app.listen(PORT, () => {
+  console.log(`The server is running on http://localhost:${PORT}`);
+});
 
 describe("Beverages API", () => {
   // Test GET all beverages

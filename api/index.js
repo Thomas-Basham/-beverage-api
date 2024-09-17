@@ -97,4 +97,4 @@ const server = app.listen(PORT, () => {
 });
 
 // export our app for testing
-module.exports = { app, server };
+module.exports = app;
